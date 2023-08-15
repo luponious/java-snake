@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>|Snake ~º|</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--CDN - CSS - FONT AWESOME-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <!--GOOGLE FONTS-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300&family=Press+Start+2P&family=Roboto+Condensed:wght@700&family=Roboto:wght@300;700&display=swap" rel="stylesheet">
+  <!--CSS-->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <div class="game-modal" id="gameOverModal">
+    <div class="content">
+      <img src="./lost.gif" alt="gif">
+      <h4>Perdiste...</h4>
+      <p>Tu score es de: <b id="gameOverScore">0</b></p>
+      <button id="playAgainBtn" class="play-again">Jugar Novamente!</button>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="game-details">
+      <span class="score">Score: 0</span>
+      <span class="high-score">High Score: 0</span>
+    </div>
+    <div class="play-board"></div>
+    <!--controles para botones, para ver achicar la ventana-->
+    <div class="controls">
+      <i data-key="ArrowLeft" class="fa-solid fa-arrow-left-long"></i>
+      <i data-key="ArrowUp" class="fa-solid fa-arrow-up-long"></i>
+      <i data-key="ArrowRight" class="fa-solid fa-arrow-right-long"></i>
+      <i data-key="ArrowDown" class="fa-solid fa-arrow-down-long"></i>
+    </div>
+  </div>
+  <script src="./script.js" defer></script>
+</body>
+
+</html>
