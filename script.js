@@ -1,3 +1,42 @@
+
+const unsplashAccessKey = 'Wt8NDxpRa8HkZ7yLb1yHs0lyS2r6VbMhCt1SBmmz2_w';
+const collectionId = 's2-ZMpVRK9w';
+
+const updateBackgroundImage = (imageUrl) => {
+  document.body.style.backgroundImage = `url(${imageUrl})`;
+};
+
+const fetchRandomImage = async () => {
+  try {
+    const response = await fetch(`https://api.unsplash.com/collections/${collectionId}/photos?client_id=${unsplashAccessKey}`);
+    const data = await response.json();
+    
+    if (data.length > 0) {
+      const randomIndex = Math.floor(Math.random() * data.length);
+      const randomImage = data[randomIndex];
+      updateBackgroundImage(randomImage.urls.full); // Set the background image of the body
+      const backgroundContainer = document.querySelector('.background-container');
+      backgroundContainer.style.backgroundImage = `url(${randomImage.urls.full})`; // Set the background image of the container
+    }
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
+
+
+
+
+
+
+
+const startBtn = document.querySelector("#startBtn");
+let gameStarted = false;
+
+const startGame = () => {
+  if (!gameStarted) {
+    gameStarted = true;
+    startBtn.style.display = "none";
+
 const playBoard = document.querySelector(".play-board");
 const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".high-score");
@@ -5,8 +44,10 @@ const controls = document.querySelectorAll(".controls i");
 
 let gameOver = false;
 let foodX, foodY;
-let snakeX = 5, snakeY = 5;
-let velocityX = 0, velocityY = 0;
+let snakeX = 5,
+  snakeY = 5;
+let velocityX = 0,
+  velocityY = 0;
 let snakeBody = [];
 let setIntervalId;
 let score = 0;
@@ -15,8 +56,11 @@ let score = 0;
 let highScore = localStorage.getItem("high-score") || 0;
 highScoreElement.innerText = `High Score: ${highScore}`;
 
+let snakeSpeed = 200; // Initial speed in milliseconds
+const speedIncreaseThreshold = 2; // Increase speed every 5 food items
+const speedIncreaseAmount = 15; // Increase speed by 10 milliseconds
+
 const updateFoodPosition = () => {
-// posicionador de comida (random integer "29"+1)
   foodX = Math.floor(Math.random() * 30) + 1;
   foodY = Math.floor(Math.random() * 30) + 1;
 };
@@ -24,29 +68,27 @@ const updateFoodPosition = () => {
 const controladorGameOver = () => {
   clearInterval(setIntervalId);
 
-  // controles de modal
   const gameOverModal = document.getElementById("gameOverModal");
   const gameOverContent = gameOverModal.querySelector(".content");
   const gameOverScore = gameOverContent.querySelector("#gameOverScore");
 
-  // Actualizacion del score en el modal
   gameOverScore.textContent = `${score}`;
 
   gameOverModal.classList.add("show");
 };
 
-  //btn Jugar novamente y reset de la pagina
 const playAgainBtn = document.querySelector("#playAgainBtn");
 playAgainBtn.addEventListener("click", () => {
-    const gameOverModal = document.querySelector("#gameOverModal");
+  const gameOverModal = document.querySelector("#gameOverModal");
   gameOverModal.classList.remove("show");
   score = 0;
+  snakeSpeed = 100; // Reset speed
+  clearInterval(setIntervalId);
+  setIntervalId = setInterval(initGame, snakeSpeed);
   location.reload();
 });
 
-
 const changeDirection = (e) => {
-  // controlador de dire· y velocidad
   if (e.key === "ArrowUp" && velocityY != 1) {
     velocityX = 0;
     velocityY = -1;
@@ -62,7 +104,6 @@ const changeDirection = (e) => {
   }
 };
 
-// transform· de teclas valor para objecto
 controls.forEach((button) =>
   button.addEventListener("click", () =>
     changeDirection({ key: button.dataset.key })
@@ -73,16 +114,24 @@ const initGame = () => {
   if (gameOver) return controladorGameOver();
   let html = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
 
-  // chequeando la si se "toca" la comida
   if (snakeX === foodX && snakeY === foodY) {
     updateFoodPosition();
-    snakeBody.push([foodY, foodX]); // push de la comida para el array del cuerpo
-    score++; // incrementando score en +1
+    snakeBody.push([foodY, foodX]);
+    score++;
+
+    // Increase speed after reaching the threshold
+    if (score % speedIncreaseThreshold === 0) {
+      snakeSpeed -= speedIncreaseAmount;
+      clearInterval(setIntervalId);
+      setIntervalId = setInterval(initGame, snakeSpeed);
+    }
+
     highScore = score >= highScore ? score : highScore;
     localStorage.setItem("high-score", highScore);
     scoreElement.innerText = `Score: ${score}`;
     highScoreElement.innerText = `High Score: ${highScore}`;
   }
+
   // actualizando la posicion de la cabeza
   snakeX += velocityX;
   snakeY += velocityY;
@@ -111,8 +160,16 @@ const initGame = () => {
     }
   }
   playBoard.innerHTML = html;
+
+  
+
+
 };
 
 updateFoodPosition();
-setIntervalId = setInterval(initGame, 100);
-document.addEventListener("keyup", changeDirection);
+    setIntervalId = setInterval(initGame, snakeSpeed);
+    document.addEventListener("keyup", changeDirection);
+  }
+};
+fetchRandomImage();
+startBtn.addEventListener("click", startGame);

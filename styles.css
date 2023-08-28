@@ -15,7 +15,18 @@ body {
   background: radial-gradient(circle, rgba(35, 22, 70, 0.955) 18%, rgb(41, 72, 100) 100%);
 }
 
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  z-index: -1;
+}
+
 .wrapper {
+  border: solid rgba(42, 2, 56, 0.955);
   width: 65vmin;
   height: 70vmin;
   display: flex;
@@ -23,8 +34,8 @@ body {
   flex-direction: column;
   justify-content: center;
   border-radius: 5px;
-  background: #210840;
-  box-shadow: 5px 10px 20px rgb(221, 243, 134);
+  background: #300a60;
+  box-shadow: 5px 10px 20px rgb(216 104 255 / 53%);
 }
 
 .game-details {
@@ -40,9 +51,10 @@ body {
   height: 100%;
   width: 100%;
   display: grid;
-  background: #1d7654d1;
+  background: radial-gradient(circle, rgb(76 203 99 / 96%) 18%, rgb(33 8 64) 100%);
   grid-template: repeat(30, 1fr) / repeat(30, 1fr);
 }
+
 
 .play-board .food {
   border-radius: 6px;
@@ -86,6 +98,11 @@ body {
     padding: 15px 0;
     font-size: 1rem;
   }
+}
+
+.start-button {
+  padding: 12px 23px;
+  border-radius: 3px;
 }
 
 /* Modal del gameOver */
