@@ -1,7 +1,5 @@
-
-const unsplashAccessKey = 'Wt8NDxpRa8HkZ7yLb1yHs0lyS2r6VbMhCt1SBmmz2_w';
+/*esa linea deberia estar en un archivo separado, ya lo sé pero bueno... no queria hacerlo, solamente porque seria mucho laburo por muy poco asi que por hora dejo ese comentario simpatico aca... si seguis leyendo es porque realmente queres saber que es lo que no deberia estar aca, asi que buen, ya casi termino de enrollar esa linea, te juro que no hay nada de mas aca, enserio... bueno... no se que mas decir...*/const unsplashAccessKey = 'Wt8NDxpRa8HkZ7yLb1yHs0lyS2r6VbMhCt1SBmmz2_w';
 const collectionId = 's2-ZMpVRK9w';
-
 const updateBackgroundImage = (imageUrl) => {
   document.body.style.backgroundImage = `url(${imageUrl})`;
 };
@@ -14,20 +12,14 @@ const fetchRandomImage = async () => {
     if (data.length > 0) {
       const randomIndex = Math.floor(Math.random() * data.length);
       const randomImage = data[randomIndex];
-      updateBackgroundImage(randomImage.urls.full); // Set the background image of the body
+      updateBackgroundImage(randomImage.urls.full); // img para el body
       const backgroundContainer = document.querySelector('.background-container');
-      backgroundContainer.style.backgroundImage = `url(${randomImage.urls.full})`; // Set the background image of the container
+      backgroundContainer.style.backgroundImage = `url(${randomImage.urls.full})`; // img para container
     }
   } catch (error) {
     console.error('Error fetching image:', error);
   }
 };
-
-
-
-
-
-
 
 const startBtn = document.querySelector("#startBtn");
 let gameStarted = false;
@@ -56,9 +48,9 @@ let score = 0;
 let highScore = localStorage.getItem("high-score") || 0;
 highScoreElement.innerText = `High Score: ${highScore}`;
 
-let snakeSpeed = 200; // Initial speed in milliseconds
-const speedIncreaseThreshold = 2; // Increase speed every 5 food items
-const speedIncreaseAmount = 15; // Increase speed by 10 milliseconds
+let snakeSpeed = 200; // velocidad inicial
+const speedIncreaseThreshold = 2; // minimo apra el incremento
+const speedIncreaseAmount = 15; // incremento de velocidad
 
 const updateFoodPosition = () => {
   foodX = Math.floor(Math.random() * 30) + 1;
@@ -160,10 +152,6 @@ const initGame = () => {
     }
   }
   playBoard.innerHTML = html;
-
-  
-
-
 };
 
 updateFoodPosition();
